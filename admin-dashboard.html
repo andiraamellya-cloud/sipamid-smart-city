@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin Desa - SIPAMID Smart Village</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <!-- HEADER (Wajib Logo Pemprov Lampung & Logo UTI) -->
+    <header class="top-header-bar">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="header-logos-container">
+                    <img src="assets/img/logo_lampung.png" alt="Logo Pemprov Lampung" class="header-logo-img">
+                    <div class="brand-title-group">
+                        <h1>SIPAMID <span class="badge bg-danger ms-1">Admin Operasional Desa</span></h1>
+                        <p>Sistem Informasi Pengaduan Masyarakat & Monitoring Infrastruktur Desa</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="text-end d-none d-md-block text-white">
+                        <small class="d-block fw-bold">Pemerintah Kabupaten Lampung Selatan</small>
+                        <small class="text-white-50" style="font-size: 0.72rem;">Universitas Teknokrat Indonesia - 2026</small>
+                    </div>
+                    <img src="assets/img/logo_teknokrat.jpg" alt="Logo Universitas Teknokrat Indonesia" class="header-logo-img">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVBAR ADMIN -->
+    <nav class="navbar navbar-expand-lg main-navbar sticky-top">
+        <div class="container-fluid px-4">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="adminMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="admin-dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin-pengaduan.html"><i class="bi bi-card-checklist"></i> Kelola Pengaduan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin-kategori.html"><i class="bi bi-tags"></i> Kategori Infrastruktur</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin-users.html"><i class="bi bi-people"></i> Data Warga / Pengguna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin-laporan.html"><i class="bi bi-file-earmark-bar-graph"></i> Rekapitulasi & Ekspor</a></li>
+                </ul>
+                <div id="userNavContainer" class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN BODY -->
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                <div>
+                    <h4 class="fw-bold text-primary mb-1"><i class="bi bi-grid-fill me-2"></i> Dashboard Pengawasan Infrastruktur Desa</h4>
+                    <p class="text-muted small mb-0">Panel kendali operasional penerimaan pengaduan, verifikasi lapangan, dan monitoring pengerjaan.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="admin-pengaduan.html" class="btn btn-primary-smart"><i class="bi bi-plus-circle me-1"></i> Verifikasi Pengaduan Masuk</a>
+                    <a href="admin-laporan.html" class="btn btn-outline-secondary"><i class="bi bi-download me-1"></i> Unduh Rekap Data</a>
+                </div>
+            </div>
+
+            <!-- KPI COUNTER ROW -->
+            <div class="row g-3 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card pending">
+                        <div class="stat-content">
+                            <h3 id="statAdmPending">0</h3>
+                            <p>Antrean Verifikasi</p>
+                        </div>
+                        <div class="stat-icon pending"><i class="bi bi-clock-history"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card verified">
+                        <div class="stat-content">
+                            <h3 id="statAdmVerified">0</h3>
+                            <p>Laporan Diverifikasi</p>
+                        </div>
+                        <div class="stat-icon verified"><i class="bi bi-check-all"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card process">
+                        <div class="stat-content">
+                            <h3 id="statAdmProcess">0</h3>
+                            <p>Sedang Pengerjaan</p>
+                        </div>
+                        <div class="stat-icon process"><i class="bi bi-tools"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card completed">
+                        <div class="stat-content">
+                            <h3 id="statAdmCompleted">0</h3>
+                            <p>Tuntas Selesai</p>
+                        </div>
+                        <div class="stat-icon completed"><i class="bi bi-patch-check-fill"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-5">
+                    <div class="card card-smart p-3 h-100">
+                        <div class="card-header-smart py-2 px-0">
+                            <span><i class="bi bi-pie-chart-fill me-2"></i> Komposisi Kerusakan per Kategori</span>
+                        </div>
+                        <div class="card-body p-2" style="position: relative; height: 280px;">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card card-smart p-3 h-100">
+                        <div class="card-header-smart py-2 px-0">
+                            <span><i class="bi bi-bar-chart-line-fill me-2"></i> Tren Pengaduan Masuk vs Selesai (30 Hari)</span>
+                        </div>
+                        <div class="card-body p-2" style="position: relative; height: 280px;">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANTREAN VERIFIKASI SEGERA -->
+            <div class="card card-smart">
+                <div class="card-header-smart">
+                    <span><i class="bi bi-hourglass-top text-warning me-2"></i> Laporan Butuh Verifikasi Segera (Pending)</span>
+                    <a href="admin-pengaduan.html" class="btn btn-sm btn-outline-primary">Lihat Seluruh Pengaduan</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No. Tiket</th>
+                                    <th>Pelapor</th>
+                                    <th>Kategori Kerusakan</th>
+                                    <th>Judul Pengaduan</th>
+                                    <th>Lokasi</th>
+                                    <th>Waktu Masuk</th>
+                                    <th>Tindakan Cepat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingVerificationTable">
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">Memuat daftar laporan pending...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER WAJIB -->
+    <footer class="footer-smart">
+        <div class="container-fluid px-4 text-center">
+            <div class="copyright-text">
+                Copyright©2026 by Andira Amellya dan Dr. Erliyan Redy Susanto, M.Kom.
+            </div>
+            <div class="text-white-50 small mt-1">
+                SIPAMID Smart Village &bull; Fakultas Teknik & Ilmu Komputer, Universitas Teknokrat Indonesia
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Auth.requireRole(['admin'])) return;
+
+            const db = LocalDb.get();
+            const reports = db.reports || [];
+
+            let pending = 0, verified = 0, process = 0, completed = 0;
+            const categoryCounts = {};
+
+            reports.forEach(r => {
+                if (r.status === 'Menunggu Verifikasi') pending++;
+                else if (r.status === 'Diverifikasi') verified++;
+                else if (r.status === 'Sedang Diproses') process++;
+                else if (r.status === 'Selesai') completed++;
+
+                categoryCounts[r.category_name] = (categoryCounts[r.category_name] || 0) + 1;
+            });
+
+            document.getElementById('statAdmPending').innerText = pending;
+            document.getElementById('statAdmVerified').innerText = verified;
+            document.getElementById('statAdmProcess').innerText = process;
+            document.getElementById('statAdmCompleted').innerText = completed;
+
+            // Render Charts
+            const catData = Object.keys(categoryCounts).map(k => ({ name: k, count: categoryCounts[k] }));
+            const trendData = {
+                labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+                incoming: [4, 7, 5, 8],
+                completed: [3, 5, 6, 7]
+            };
+            const statusData = [pending, verified, process, completed, 0];
+            initDashboardCharts(catData, trendData, statusData);
+
+            // Render antrean pending
+            const pendingList = reports.filter(r => r.status === 'Menunggu Verifikasi');
+            const tbody = document.getElementById('pendingVerificationTable');
+
+            if (pendingList.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-success">
+                            <i class="bi bi-check-circle-fill fs-3 d-block mb-1"></i>
+                            Tidak ada antrean pengaduan baru yang menanti verifikasi.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                tbody.innerHTML = pendingList.map(r => `
+                    <tr>
+                        <td class="fw-bold text-primary">${r.report_number}</td>
+                        <td>${r.reporter_name}</td>
+                        <td><span class="badge bg-light text-dark border">${r.category_name}</span></td>
+                        <td><strong>${r.title}</strong></td>
+                        <td><small class="text-muted"><i class="bi bi-geo-alt"></i> ${r.location}</small></td>
+                        <td><small>${formatDateIndo(r.created_at)}</small></td>
+                        <td>
+                            <a href="detail-pengaduan.html?id=${r.id}" class="btn btn-sm btn-primary-smart">
+                                <i class="bi bi-check2-square"></i> Periksa & Verifikasi
+                            </a>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+</html>
+
