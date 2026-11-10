@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: sipamid_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: sipamid_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    networks:
+      - sipamid_net
+
+  backend:
+    build:
+      context: ./sipamid-backend
+      dockerfile: Dockerfile
+    container_name: sipamid_backend
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: 8080
+      DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/sipamid_db
+      JWT_SECRET: super_secret_sipamid_smart_city_teknokrat_key_2026_andira
+      JWT_EXPIRATION_HOURS: 24
+      UPLOAD_DIR: ./uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./sipamid-backend/uploads:/app/uploads
+      - ./frontend:/frontend
+    networks:
+      - sipamid_net
+
+volumes:
+  pgdata:
+
+networks:
+  sipamid_net:
+    driver: bridge
+
